@@ -49,8 +49,8 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
-const Text = styled.div`
-  line-height: 35px;
+const Text = styled.span`
+  padding-top: 4px;
 `;
 
 interface CoinInterface {
