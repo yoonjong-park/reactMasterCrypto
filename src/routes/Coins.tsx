@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getCoins } from "APIs/getCoins";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -68,9 +69,7 @@ const Coins = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
-      const response = await fetch("https://api.coinpaprika.com/v1/coins");
-      const json = await response.json();
-      const _cutCoins = json.slice(0, 100); // idx, count
+      const _cutCoins = await getCoins();
       setCoins(_cutCoins);
       setLoading(false);
     })();
@@ -79,22 +78,23 @@ const Coins = () => {
   return (
     <Container>
       <Header>
-        <Title>Coins</Title>
+        <Title>Coin list</Title>
       </Header>
       {loading ? (
         <Loader>loading...</Loader>
       ) : (
         <CoinsList>
-          {coins.map(coin => (
-            <Coin key={coin.id}>
-              <Link to={`/${coin.id}`}>
-                <Img
-                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLocaleLowerCase()}`}
-                />
-                <Text>{coin.name} &rarr;</Text>
-              </Link>
-            </Coin>
-          ))}
+          {coins &&
+            coins.map(coin => (
+              <Coin key={coin.id}>
+                <Link to={`/${coin.id}`} state={coin.name}>
+                  <Img
+                    src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLocaleLowerCase()}`}
+                  />
+                  <Text>{coin.name} &rarr;</Text>
+                </Link>
+              </Coin>
+            ))}
         </CoinsList>
       )}
     </Container>
