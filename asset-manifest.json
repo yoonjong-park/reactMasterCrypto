@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/reactMasterCrypto/static/js/main.a36b33fb.js",
+    "main.js": "/reactMasterCrypto/static/js/main.79fb74a4.js",
     "index.html": "/reactMasterCrypto/index.html",
-    "main.a36b33fb.js.map": "/reactMasterCrypto/static/js/main.a36b33fb.js.map"
+    "main.79fb74a4.js.map": "/reactMasterCrypto/static/js/main.79fb74a4.js.map"
   },
   "entrypoints": [
-    "static/js/main.a36b33fb.js"
+    "static/js/main.79fb74a4.js"
   ]
 }
