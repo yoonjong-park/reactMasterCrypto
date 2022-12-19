@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getCoins } from "APIs/getCoins";
+import { getCoins } from "APIs/get";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -87,7 +87,7 @@ const Coins = () => {
           {coins &&
             coins.map(coin => (
               <Coin key={coin.id}>
-                <Link to={`/${coin.id}`} state={coin.name}>
+                <Link to={`/${coin.id}`} state={{ name: coin.name }}>
                   <Img
                     src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLocaleLowerCase()}`}
                   />
