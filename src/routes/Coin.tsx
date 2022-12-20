@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Params, useParams, useLocation } from "react-router-dom";
+import {
+  Params,
+  useParams,
+  useLocation,
+  Outlet,
+  useMatch,
+} from "react-router-dom";
 import styled from "styled-components";
 import { getCoin, getCoinPrice } from "APIs/get";
+import { Link } from "react-router-dom";
+import { theme } from "theme";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -101,25 +109,57 @@ const Coin = () => {
   const [priceInfo, setPriceInfo] = useState<IPriceData>();
   const { state } = useLocation() as RouteState;
   const [loading, setLoading] = useState(true);
+  const matchedPrice = useMatch(`${coinID}/price`);
+  const matchedChart = useMatch(`${coinID}/chart`);
+  console.log("matchedPrice", matchedPrice);
+  console.log("matchedChart", matchedChart);
 
   useEffect(() => {
     (async () => {
       const infoData = await getCoin(coinID);
-
       const priceData = await getCoinPrice(coinID);
-
       setInfo(infoData);
       setPriceInfo(priceData);
       setLoading(false);
     })();
-  }, []);
+  }, [coinID]); // dependency를 넣는 게 더 나은 성능을 가져온다고 한다.
 
   return (
     <Container>
       <Header>
-        <Title>{state?.name || "Loading..."}</Title>
+        <Title>
+          {state?.name ? (
+            state.name
+          ) : loading ? (
+            <Loader>loading...</Loader>
+          ) : (
+            info?.name
+          )}
+        </Title>
       </Header>
-      {loading ? <Loader>loading...</Loader> : null}
+      {loading ? <Loader>loading...</Loader> : <div>{info?.description}</div>}
+
+      <Outlet />
+      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+        <div
+          style={{
+            border: "1px solid white",
+            textAlign: "center",
+            padding: "20px",
+            color: matchedChart !== null ? theme.accentColor : theme.textColor,
+          }}>
+          <Link to="chart">Chart</Link>
+        </div>
+        <div
+          style={{
+            border: "1px solid white",
+            textAlign: "center",
+            padding: "20px",
+            color: matchedPrice !== null ? theme.accentColor : theme.textColor,
+          }}>
+          <Link to="price">Price</Link>
+        </div>
+      </div>
     </Container>
   );
 };
