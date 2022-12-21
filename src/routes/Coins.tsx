@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getCoins } from "APIs/get";
+import { useQuery } from "react-query";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -54,7 +55,7 @@ const Text = styled.span`
   padding-top: 4px;
 `;
 
-interface CoinInterface {
+interface ICoin {
   id: string;
   name: string;
   symbol: string;
@@ -65,36 +66,39 @@ interface CoinInterface {
 }
 
 const Coins = () => {
-  const [coins, setCoins] = useState<CoinInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    (async () => {
-      const _cutCoins = await getCoins();
-      setCoins(_cutCoins);
-      setLoading(false);
-    })();
-  }, []);
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", getCoins, {
+    select: data => data.slice(0, 30),
+  });
+
+  // const [coins, setCoins] = useState<CoinInterface[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   (async () => {
+  //     const _cutCoins = await getCoins();
+  //     setCoins(_cutCoins);
+  //     setLoading(false);
+  //   })();
+  // }, []);
 
   return (
     <Container>
       <Header>
         <Title>Coin list</Title>
       </Header>
-      {loading ? (
+      {isLoading ? (
         <Loader>loading...</Loader>
       ) : (
         <CoinsList>
-          {coins &&
-            coins.map(coin => (
-              <Coin key={coin.id}>
-                <Link to={`/${coin.id}`} state={{ name: coin.name }}>
-                  <Img
-                    src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLocaleLowerCase()}`}
-                  />
-                  <Text>{coin.name} &rarr;</Text>
-                </Link>
-              </Coin>
-            ))}
+          {data?.map(coin => (
+            <Coin key={coin.id}>
+              <Link to={`/${coin.id}`} state={{ name: coin.name }}>
+                <Img
+                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLocaleLowerCase()}`}
+                />
+                <Text>{coin.name} &rarr;</Text>
+              </Link>
+            </Coin>
+          ))}
         </CoinsList>
       )}
     </Container>

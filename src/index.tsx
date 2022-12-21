@@ -6,6 +6,7 @@ import { theme } from "theme";
 import router from "router";
 import { RouterProvider } from "react-router-dom";
 import reset from "styled-reset";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -24,15 +25,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <RouterProvider router={router}></RouterProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <RouterProvider router={router}></RouterProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

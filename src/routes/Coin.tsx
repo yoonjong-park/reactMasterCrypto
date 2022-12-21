@@ -138,8 +138,6 @@ const Coin = () => {
         </Title>
       </Header>
       {loading ? <Loader>loading...</Loader> : <div>{info?.description}</div>}
-
-      <Outlet />
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <div
           style={{
@@ -160,6 +158,7 @@ const Coin = () => {
           <Link to="price">Price</Link>
         </div>
       </div>
+      <Outlet />
     </Container>
   );
 };
