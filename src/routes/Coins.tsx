@@ -79,6 +79,7 @@ const Coins = () => {
   //     setLoading(false);
   //   })();
   // }, []);
+  //
 
   return (
     <Container>
