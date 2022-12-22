@@ -7,6 +7,7 @@ import router from "router";
 import { RouterProvider } from "react-router-dom";
 import reset from "styled-reset";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -38,6 +39,7 @@ root.render(
         <GlobalStyle />
         <RouterProvider router={router}></RouterProvider>
       </ThemeProvider>
+      <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
     </QueryClientProvider>
   </React.StrictMode>
 );

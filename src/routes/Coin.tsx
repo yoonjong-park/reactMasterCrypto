@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { getCoin, getCoinPrice } from "APIs/get";
 import { Link } from "react-router-dom";
 import { theme } from "theme";
+import { useQuery } from "react-query";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -111,18 +112,31 @@ const Coin = () => {
   const [loading, setLoading] = useState(true);
   const matchedPrice = useMatch(`${coinID}/price`);
   const matchedChart = useMatch(`${coinID}/chart`);
-  console.log("matchedPrice", matchedPrice);
-  console.log("matchedChart", matchedChart);
 
-  useEffect(() => {
-    (async () => {
-      const infoData = await getCoin(coinID);
-      const priceData = await getCoinPrice(coinID);
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      setLoading(false);
-    })();
-  }, [coinID]); // dependency를 넣는 게 더 나은 성능을 가져온다고 한다.
+  const { isLoading: infoLoading, data: infoData } = useQuery<IInfoData>(
+    ["info", coinID],
+    () => getCoin(coinID)
+  );
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<IPriceData>(
+    ["tickers", coinID],
+    () => getCoinPrice(coinID)
+  );
+
+  console.log("infoLoading", infoLoading);
+  console.log("infoData", infoData);
+
+  console.log("tickersData", tickersData);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const infoData = await getCoin(coinID);
+  //     const priceData = await getCoinPrice(coinID);
+  //     setInfo(infoData);
+  //     setPriceInfo(priceData);
+
+  //     setLoading(false);
+  //   })();
+  // }, [coinID]); // dependency를 넣는 게 더 나은 성능을 가져온다고 한다.
 
   return (
     <Container>
@@ -130,14 +144,23 @@ const Coin = () => {
         <Title>
           {state?.name ? (
             state.name
-          ) : loading ? (
+          ) : infoLoading ? (
             <Loader>loading...</Loader>
           ) : (
-            info?.name
+            infoData?.name
           )}
         </Title>
       </Header>
-      {loading ? <Loader>loading...</Loader> : <div>{info?.description}</div>}
+      {infoLoading ? (
+        <Loader>loading...</Loader>
+      ) : (
+        <div>{infoData?.description}</div>
+      )}
+      {tickersLoading ? (
+        <Loader>loading...</Loader>
+      ) : (
+        <div>{tickersData?.total_supply}</div>
+      )}
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <div
           style={{
