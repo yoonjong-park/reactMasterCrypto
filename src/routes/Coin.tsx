@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { getCoin, getCoinPrice } from "APIs/get";
 import { Link } from "react-router-dom";
 import { theme } from "theme";
-import { useQuery } from "react-query";
+import { useQueries, useQuery } from "react-query";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -106,10 +106,9 @@ interface IPriceData {
 
 const Coin = () => {
   const { coinID } = useParams<RouteParams>();
-  const [info, setInfo] = useState<IInfoData>();
-  const [priceInfo, setPriceInfo] = useState<IPriceData>();
+
   const { state } = useLocation() as RouteState;
-  const [loading, setLoading] = useState(true);
+
   const matchedPrice = useMatch(`${coinID}/price`);
   const matchedChart = useMatch(`${coinID}/chart`);
 
@@ -122,21 +121,7 @@ const Coin = () => {
     () => getCoinPrice(coinID)
   );
 
-  console.log("infoLoading", infoLoading);
-  console.log("infoData", infoData);
-
-  console.log("tickersData", tickersData);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await getCoin(coinID);
-  //     const priceData = await getCoinPrice(coinID);
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-
-  //     setLoading(false);
-  //   })();
-  // }, [coinID]); // dependency를 넣는 게 더 나은 성능을 가져온다고 한다.
+  const isLoading = infoLoading || tickersLoading;
 
   return (
     <Container>
@@ -144,22 +129,20 @@ const Coin = () => {
         <Title>
           {state?.name ? (
             state.name
-          ) : infoLoading ? (
+          ) : isLoading ? (
             <Loader>loading...</Loader>
           ) : (
             infoData?.name
           )}
         </Title>
       </Header>
-      {infoLoading ? (
+      {isLoading ? (
         <Loader>loading...</Loader>
       ) : (
-        <div>{infoData?.description}</div>
-      )}
-      {tickersLoading ? (
-        <Loader>loading...</Loader>
-      ) : (
-        <div>{tickersData?.total_supply}</div>
+        <>
+          <div>{infoData?.description}</div>
+          <div>{tickersData?.total_supply}</div>
+        </>
       )}
       <div style={{ display: "flex", justifyContent: "space-evenly" }}>
         <div
