@@ -106,6 +106,7 @@ interface IPriceData {
 
 const Coin = () => {
   const { coinID } = useParams<RouteParams>();
+  console.log("coinID in Coin", coinID);
 
   const { state } = useLocation() as RouteState;
 
@@ -164,7 +165,7 @@ const Coin = () => {
           <Link to="price">Price</Link>
         </div>
       </div>
-      <Outlet />
+      <Outlet context={{ coinID }} />
     </Container>
   );
 };
