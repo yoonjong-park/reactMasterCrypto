@@ -16,6 +16,8 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
+    max-width : 70vh;
+    margin : 0 auto;
     font-family: "Source Sans Pro", sans-serif;
     background-color : ${theme.bgColor};
     color : ${theme.textColor};
