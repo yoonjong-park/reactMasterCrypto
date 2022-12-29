@@ -52,6 +52,7 @@ const Img = styled.img`
 `;
 
 const Text = styled.span`
+  color: ${props => props.theme.textColor};
   padding-top: 4px;
 `;
 

@@ -9,7 +9,7 @@ import {
 import styled from "styled-components";
 import { getCoin, getCoinPrice } from "APIs/get";
 import { Link } from "react-router-dom";
-import { theme } from "theme";
+// import { theme } from "theme";
 import { useQueries, useQuery } from "react-query";
 
 const Container = styled.div`
@@ -151,7 +151,12 @@ const Coin = () => {
             border: "1px solid white",
             textAlign: "center",
             padding: "20px",
-            color: matchedChart !== null ? theme.accentColor : theme.textColor,
+            color:
+              matchedChart !== null
+                ? `${(props: { theme: { accentColor: string } }) =>
+                    props.theme.accentColor}`
+                : `${(props: { theme: { textColor: string } }) =>
+                    props.theme.textColor}`,
           }}>
           <Link to="chart">Chart</Link>
         </div>
@@ -160,7 +165,12 @@ const Coin = () => {
             border: "1px solid white",
             textAlign: "center",
             padding: "20px",
-            color: matchedPrice !== null ? theme.accentColor : theme.textColor,
+            color:
+              matchedPrice !== null
+                ? `${(props: { theme: { accentColor: string } }) =>
+                    props.theme.accentColor}`
+                : `${(props: { theme: { textColor: string } }) =>
+                    props.theme.textColor}`,
           }}>
           <Link to="price">Price</Link>
         </div>
