@@ -1,10 +1,14 @@
-import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import React, { useState } from "react";
+import { createBrowserRouter, BrowserRouter } from "react-router-dom";
 
 import Coin from "routes/Coin";
 import Coins from "routes/Coins";
 import Chart from "routes/Chart";
 import Price from "routes/Price";
+
+// interface IRouterProps {
+//   toggleDark: () => void;
+// }
 
 const router = createBrowserRouter(
   [

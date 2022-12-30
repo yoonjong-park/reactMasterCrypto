@@ -4,6 +4,8 @@ import router from "router";
 import { RouterProvider } from "react-router-dom";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import reset from "styled-reset";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "atoms";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -25,13 +27,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App = () => {
-  const [isDark, setIsDark] = useState(false);
-  const toggleDark = () => setIsDark(current => !current);
+  const isDark = useRecoilValue(isDarkAtom);
 
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <button onClick={toggleDark}>모드선택</button>
         <GlobalStyle />
         <RouterProvider router={router}></RouterProvider>
       </ThemeProvider>
