@@ -29,17 +29,22 @@ const Chart = () => {
   const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinID], () =>
     getCoinHistory(coinID)
   );
-  console.log("chart data", data);
 
   return isLoading ? (
     <h1>loading</h1>
   ) : (
     <ReactApexChart
-      type="line"
+      type="candlestick"
       series={[
         {
-          name: "Price",
-          data: data?.map(price => Number(price.close)) as number[],
+          // name: "Price",
+          data: data?.map(price => [
+            price.time_open,
+            Number(price.open),
+            Number(price.high),
+            Number(price.low),
+            Number(price.close),
+          ]) as number[][],
         },
       ]}
       options={{

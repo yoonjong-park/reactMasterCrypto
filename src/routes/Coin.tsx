@@ -5,6 +5,7 @@ import {
   useLocation,
   Outlet,
   useMatch,
+  useNavigate,
 } from "react-router-dom";
 import styled from "styled-components";
 import { getCoin, getCoinPrice } from "APIs/get";
@@ -105,6 +106,7 @@ interface IPriceData {
 }
 
 const Coin = () => {
+  const navigate = useNavigate();
   const { coinID } = useParams<RouteParams>();
   console.log("coinID in Coin", coinID);
 
@@ -127,6 +129,7 @@ const Coin = () => {
   return (
     <Container>
       <Header>
+        <button onClick={() => navigate("/")}>홈</button>
         <Title>
           {state?.name ? (
             state.name
