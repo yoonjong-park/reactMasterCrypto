@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "./static/js/main.530ddc0a.js",
-    "index.html": "./index.html",
-    "main.530ddc0a.js.map": "./static/js/main.530ddc0a.js.map"
+    "main.js": "/reactMasterCrypto/static/js/main.812c5cd6.js",
+    "index.html": "/reactMasterCrypto/index.html",
+    "main.812c5cd6.js.map": "/reactMasterCrypto/static/js/main.812c5cd6.js.map"
   },
   "entrypoints": [
-    "static/js/main.530ddc0a.js"
+    "static/js/main.812c5cd6.js"
   ]
 }
