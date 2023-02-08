@@ -10,25 +10,28 @@ import Price from "routes/Price";
 //   toggleDark: () => void;
 // }
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Coins />,
-  },
-  {
-    path: "/:coinID",
-    element: <Coin />,
-    children: [
-      {
-        path: "chart",
-        element: <Chart />,
-      },
-      {
-        path: "price",
-        element: <Price />,
-      },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <Coins />,
+    },
+    {
+      path: "/:coinID",
+      element: <Coin />,
+      children: [
+        {
+          path: "chart",
+          element: <Chart />,
+        },
+        {
+          path: "price",
+          element: <Price />,
+        },
+      ],
+    },
+  ],
+  { basename: "/reactMasterCrypto/" }
+);
 
 export default router;
